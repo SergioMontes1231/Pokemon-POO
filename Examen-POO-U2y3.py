@@ -4,16 +4,35 @@ Agregar clases que se usan como bases para otras
 """
 
 from abc import ABC, abstractmethod
-
 class PokemonBase(ABC):
-    def __init__(self, nombre = "Sin pokemon", descripcion = "Sin descripcion", ataque = 0, defensa = 0, vida = 0, nivel = 0, evolucion = 1, atrapado = False) -> None:
+    """
+    Representa la plantilla para los pokemones 
+        Atributos:
+            -nombre(str): Nombre del pokemon
+            -descripcion(str): Descripcion del pokemon
+            -vida(int): Vida del pokemon
+            -nivel(int): Nivel del pokemon
+            -evolucion(int): En que "nivel" de evolucion va
+            -ataque(int): El daño que puede causar el pokemon
+            -defensa(int): La cantidad de daño que puede evitar el pokemon
+            -atrapado(bool): Indica si ya se atrapo al pokemon
+
+        Metodos:
+            -hablar() -> None: Metodo con el que hablar del pokemon
+            -detallesPokemon() -> None: Despliega los atributos del pokemon
+            -actualizar() -> None: Ni bombardera idea de que hace xd
+            -entrenar() -> None: Hacer entrenar al pokemon y subir stats
+    """
+
+    def __init__(self, nombre = "Sin nombre", descripcion = "Sin descripcion", vida = 0,
+     nivel = 0, evolucion = 1, ataque = 0, defensa = 0, atrapado = False ):
         self.nombre = nombre
         self.descripcion = descripcion
-        self.ataque = ataque
-        self.defensa = defensa
         self.vida = vida
         self.nivel = nivel
         self.evolucion = evolucion
+        self.ataque = ataque
+        self.defensa = defensa
         self.atrapado = atrapado
 
     @abstractmethod
@@ -21,11 +40,11 @@ class PokemonBase(ABC):
         pass
 
     @abstractmethod
-    def actualizar(self):
+    def detallesPokemon(self):
         pass
 
     @abstractmethod
-    def detallesPokemon(self):
+    def actualizar(self):
         pass
 
     @abstractmethod
@@ -34,6 +53,10 @@ class PokemonBase(ABC):
 
 
 class Entrenamiento(ABC):
+    """
+    Representa la plantilla de tipos de acciones que puede realizar un pokemon para subir sus stats
+    """
+
     @abstractmethod
     def subirAtaque(self):
         pass
