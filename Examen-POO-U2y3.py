@@ -48,7 +48,53 @@ class Entrenamiento(ABC):
 #======== Pokemon ========
 """
 """
+from clases_abstractas import Entrenamiento, PokemonBase
 
+class Pokemon(PokemonBase):
+    def __init__(self, nombre, descripcion, ataque, defensa, vida, nivel, evolucion, atrapado ) -> None:
+        super().__init__(nombre, descripcion, ataque, defensa, vida, nivel, evolucion, atrapado)
+
+    def hablar(self):
+        print(f"{self.nombre} !!")
+
+    def actualizar(self):
+        self.ataque
+        self.defensa += 20
+        self.vida += 20
+
+
+    def subirAtaque(self):
+        boost_ataque = 20
+        self.ataque = self.ataque + boost_ataque
+
+
+    def subirDefensa(self):
+        boost_defensa = 20
+        self.defensa = self.defensa + boost_defensa
+
+    def subirVida(self):
+        boost_vida = 20
+        self.vida = self.vida + boost_vida
+
+    def entrenar(self):
+        self.ataque = self.ataque + 10
+        self.defensa = self.defensa + 10
+        self.nivel = self.nivel + 10
+        self.vida = self.vida + 10
+        if self.nivel >= 100:
+            print("!El Pokemon ha evolucionado! Ahora es: {self.nombre}")
+
+    def detallesPokemon(self):
+        detalles =f"""Nombre: {self.nombre}
+        Descripcion:{self.descripcion}
+        Ataque: {self.ataque}
+        Defensa: {self.defensa}
+        Vida: {self.vida}
+        Nivel: {self.nivel}
+        Evolucion: {self.evolucion}
+        atrapado: {self.atrapado}
+        """
+        print(detalles)
 #======== Especializados ========
 """
 Clases de los pokemones con tipo
