@@ -444,6 +444,14 @@ def menu_entrenamiento():
             pokemon_jugador.defensa = nueva_defensa
             pokemon_jugador.vida = nueva_vida
             pokemon_jugador.nivel = nuevo_nivel
+            if pokemon_jugador.nivel >= 100:
+                if pokemon_jugador.evolucion < len(pokemon_jugador.evoluciones):
+                    pokemon_jugador.evolucion += 1
+                    pokemon_jugador.nombre = pokemon_jugador.evoluciones[pokemon_jugador.evolucion -1]
+                    print(f"iEl pokemon ha evolucionado! Ahora es: {pokemon_jugador.nombre}")
+                    pokemon_jugador.nivel = 1
+                else:
+                    pokemon_jugador.nivel = 100
             pokemon_jugador.limitar_stats()
             print("\n¡Entrenamiento personalizado completado!")
             pokemon_jugador.detallesPokemon()
@@ -467,5 +475,5 @@ def crear_enemigo_personalizado():
     enemigos.append(nuevo_enemigo)
     print(f"\n¡{nombre} ha sido creado y agregado a la lista de enemigos!")
 
-if __name__ = "__main__":
+if __name__ == "__main__":
     main()
