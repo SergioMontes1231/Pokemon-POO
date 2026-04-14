@@ -344,20 +344,20 @@ def main():
     
     if opcion_inicial == "1":
         evoluciones = ["Squirtle", "Wartortle", "Blastoise"]
-        pokemon_jugador = PokemonAgua("Squirtle", "Pokemon tortuga agua", 100, 1, 1, 50, 50, False, evoluciones)
+        pokemon_jugador = PokemonAgua("Squirtle", "Pokemon tortuga agua", 100, 1, 1, 50, 50, True, evoluciones)
     elif opcion_inicial == "2":
         evoluciones = ["Charmander", "Charmeleon", "Charizard"]
-        pokemon_jugador = PokemonFuego("Charmander", "Pokemon lagartija fuego", 100, 1, 1, 55, 45, False, evoluciones)
+        pokemon_jugador = PokemonFuego("Charmander", "Pokemon lagartija fuego", 100, 1, 1, 55, 45, True, evoluciones)
     elif opcion_inicial == "3":
         evoluciones = ["Pichu", "Pikachu", "Raichu"]
-        pokemon_jugador = PokemonElectrico("Pichu", "Pokemon raton electrico", 100, 1, 1, 55, 40, False, evoluciones)
+        pokemon_jugador = PokemonElectrico("Pichu", "Pokemon raton electrico", 100, 1, 1, 55, 40, True, evoluciones)
     elif opcion_inicial == "4":
         evoluciones = ["Bulbasaur", "Ivysaur", "Venusaur"]
-        pokemon_jugador = PokemonHierba("Bulbasaur", "Pokemon semilla planta", 100, 1, 1, 50, 50, False, evoluciones)
+        pokemon_jugador = PokemonHierba("Bulbasaur", "Pokemon semilla planta", 100, 1, 1, 50, 50, True, evoluciones)
     else:
         print("Opcion invalida, se asignara Squirtle")
         evoluciones = ["Squirtle", "Wartortle", "Blastoise"]
-        pokemon_jugador = PokemonAgua("Squirtle", "Pokemon tortuga agua", 100, 1, 1, 50, 50, False, evoluciones)
+        pokemon_jugador = PokemonAgua("Squirtle", "Pokemon tortuga agua", 100, 1, 1, 50, 50, True, evoluciones)
     
     print("\n¡Has elegido a tu Pokemon!")
     pokemon_jugador.detallesPokemon()
@@ -467,4 +467,5 @@ def crear_enemigo_personalizado():
     enemigos.append(nuevo_enemigo)
     print(f"\n¡{nombre} ha sido creado y agregado a la lista de enemigos!")
 
-main()
+if __name__ = "__main__":
+    main()
