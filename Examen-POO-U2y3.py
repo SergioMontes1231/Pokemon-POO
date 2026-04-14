@@ -1,31 +1,10 @@
-#======== Clases Abstractas ========
-"""
-Agregar clases que se usan como bases para otras
-"""
-
+# CLASES ABSTRACTA
 from abc import ABC, abstractmethod
+from typing import List
+
 class PokemonBase(ABC):
-    """
-    Representa la plantilla para los pokemones 
-        Atributos:
-            -nombre(str): Nombre del pokemon
-            -descripcion(str): Descripcion del pokemon
-            -vida(int): Vida del pokemon
-            -nivel(int): Nivel del pokemon
-            -evolucion(int): En que "nivel" de evolucion va
-            -ataque(int): El daño que puede causar el pokemon
-            -defensa(int): La cantidad de daño que puede evitar el pokemon
-            -atrapado(bool): Indica si ya se atrapo al pokemon
-
-        Metodos:
-            -hablar() -> None: Metodo con el que hablar del pokemon
-            -detallesPokemon() -> None: Despliega los atributos del pokemon
-            -actualizar() -> None: Ni bombardera idea de que hace xd
-            -entrenar() -> None: Hacer entrenar al pokemon y subir stats
-    """
-
     def __init__(self, nombre = "Sin nombre", descripcion = "Sin descripcion", vida = 0,
-     nivel = 0, evolucion = 1, ataque = 0, defensa = 0, atrapado = False ):
+        nivel = 0, evolucion = 1, ataque = 0, defensa = 0, atrapado = False) :
         self.nombre = nombre
         self.descripcion = descripcion
         self.vida = vida
@@ -53,10 +32,6 @@ class PokemonBase(ABC):
 
 
 class Entrenamiento(ABC):
-    """
-    Representa la plantilla de tipos de acciones que puede realizar un pokemon para subir sus stats
-    """
-
     @abstractmethod
     def subirAtaque(self):
         pass
@@ -68,38 +43,16 @@ class Entrenamiento(ABC):
     @abstractmethod
     def subirVida(self):
         pass
-#======== Pokemon ========
-"""
-"""
+
+
+# Pokemon
 class Pokemon(PokemonBase):
-    """
-    Representa la base para pokemones utilizables con la logica basica
-        Atributos:
-            -nombre(str): Nombre del pokemon
-            -descripcion(str): Descripcion del pokemon
-            -vida(int): Vida del pokemon
-            -nivel(int): Nivel del pokemon
-            -evolucion(int): En que "nivel" de evolucion va
-            -ataque(int): El daño que puede causar el pokemon
-            -defensa(int): La cantidad de daño que puede evitar el pokemon
-            -atrapado(bool): Indica si ya se atrapo al pokemon
-
-        Metodos:
-            -hablar() -> None: Metodo con el que hablar del pokemon
-            -detalles() -> None: Despliega los atributos del pokemon
-            -actualizar() -> None: Ni bombardera idea de que hace xd
-            -entrenar() -> None: Hacer entrenar al pokemon y subir stats a la par
-            -subirVida() -> None: Sube stat de vida
-            -subirAtaque() -> None: Sube stat de Ataque
-            -sburDefensa() -> None: Sube stat de defensa
-
-    
-    """
-    def __init__(self, nombre: str, descripcion: str, vida: int , nivel: int , evolucion: int , ataque: int, defensa: int, atrapado: bool):
-        super().__init__(nombre, descripcion, vida, nivel, evolucion, ataque, defensa, atrapado)
+    def __init__(self, evoluciones, descripcion, vida, nivel, evolucion, ataque, defensa, atrapado):
+        super().__init__(evoluciones[0], descripcion, vida, nivel, evolucion, ataque, defensa, atrapado)
+        self.evoluciones = evoluciones
 
     def hablar(self):
-        print(f"i {self.nombre} !")
+        print(f"{self.nombre}!")
 
     def detallesPokemon(self):
         print (f""" ==== {self.nombre} =====
@@ -114,67 +67,100 @@ Atrapado: {self.atrapado}
 
     def entrenar(self):
         self.ataque += 10 
-        self.defensa +=10
+        self.defensa += 10
         self.nivel += 10
         self.vida += 10
 
         if self.nivel >= 100:
-            self.evolucion  += 1
-            print("="*55)
-            print(f"¡El Pokémon ha evolucionado! Ahora es: {self.nombre}")
-            print("="*55)
-            self.nivel = 0
+            if self.evolucion < len(self.evoluciones):
+                self.evolucion += 1
+                self.nombre = self.evoluciones[self.evolucion-1]
+                print(f"¡Evolucionó! Ahora es {self.nombre}")
+            else:
+                print("Ya no puede evolucionar más")
 
+            self.nivel = 1
+
+        self.limitar_stats()
 
     def subirAtaque(self):
-        boost_ataque = 20
-        self.ataque = self.ataque + boost_ataque
+        self.ataque += 20
+        self.limitar_stats()
 
     def subirDefensa(self):
-        boost_defensa = 20
-        self.defensa = self.defensa + boost_defensa
+        self.defensa += 20
+        self.limitar_stats()
 
     def subirVida(self):
-        boost_vida = 20
-        self.vida = self.vida + boost_vida
-
+        self.vida += 20
+        self.limitar_stats()
 
     def actualizar(self):
-        boost_ataque = 20
-        boost_defensa = 20
-        boost_vida = 20
+        self.ataque += 20
+        self.defensa += 20
+        self.vida += 20
+        self.limitar_stats()
 
-        self.ataque =  self.ataque + boost_ataque
-        self.defensa = self.defensa + boost_defensa
-        self.vida = self.vida + boost_vida
+    def limitar_stats(self):
+        self.ataque = max(1, min(self.ataque, 1000))
+        self.defensa = max(1, min(self.defensa, 1000))
+        self.vida = max(1, min(self.vida, 1000))
+        self.nivel = max(1, min(self.nivel, 100))
 
+
+# Clase de union
 class PokemonConEntrenamiento(Pokemon, Entrenamiento):
-    """
-    Representa la union de los metodos y atributos de clase Pokemon y clase Entrenamiento, para ser usados en una sola herencia
-        Atributos:
-            -nombre(str): Nombre del pokemon
-            -descripcion(str): Descripcion del pokemon
-            -vida(int): Vida del pokemon
-            -nivel(int): Nivel del pokemon
-            -evolucion(int): En que "nivel" de evolucion va
-            -ataque(int): El daño que puede causar el pokemon
-            -defensa(int): La cantidad de daño que puede evitar el pokemon
-            -atrapado(bool): Indica si ya se atrapo al pokemon
-
-        Metodos:
-            -hablar() -> None: Metodo con el que hablar del pokemon
-            -detalles() -> None: Despliega los atributos del pokemon
-            -actualizar() -> None: Ni bombardera idea de que hace xd
-            -entrenar() -> None: Hacer entrenar al pokemon y subir stats
-    """
-    def __init__(self, nombre: str, descripcion: str, vida: int, nivel: int, evolucion: int, ataque: int, defensa: int, atrapado: bool):
-        super().__init__(nombre, descripcion, vida, nivel, evolucion, ataque, defensa, atrapado)
+    def __init__(self, evoluciones, descripcion, vida, nivel, evolucion, ataque, defensa, atrapado):
+        super().__init__(evoluciones, descripcion, vida, nivel, evolucion, ataque, defensa, atrapado)
 
 
-#======== Especializados ========
-"""
-Clases de los pokemones con tipo
-"""
+# Pokemon con especializacion
+class PokemonAgua(PokemonConEntrenamiento):
+    def __init__(self, evoluciones, descripcion, vida, nivel, evolucion, ataque, defensa, atrapado):
+        super().__init__(evoluciones, descripcion, vida, nivel, evolucion, ataque, defensa, atrapado)
+        self.atribto_especial = "Hidrobomba"
+
+    def actualizar(self):
+        self.ataque += 10
+        self.defensa += 20
+        self.vida += 10
+        self.limitar_stats()
+
+
+class PokemonFuego(PokemonConEntrenamiento):
+    def __init__(self, evoluciones, descripcion, vida, nivel, evolucion, ataque, defensa, atrapado):
+        super().__init__(evoluciones, descripcion, vida, nivel, evolucion, ataque, defensa, atrapado)
+        self.atribto_especial = "Lanzallamas"
+
+    def actualizar(self):
+        self.ataque += 30
+        self.defensa += 10
+        self.vida += 10
+        self.limitar_stats()
+
+
+class PokemonElectrico(PokemonConEntrenamiento):
+    def __init__(self, evoluciones, descripcion, vida, nivel, evolucion, ataque, defensa, atrapado):
+        super().__init__(evoluciones, descripcion, vida, nivel, evolucion, ataque, defensa, atrapado)
+        self.atribto_especial = "Impactrueno" 
+
+    def actualizar(self):
+        self.ataque += 25
+        self.defensa += 5
+        self.vida += 10
+        self.limitar_stats()
+
+
+class PokemonHierba(PokemonConEntrenamiento):
+    def __init__(self, evoluciones, descripcion, vida, nivel, evolucion, ataque, defensa, atrapado):
+        super().__init__(evoluciones, descripcion, vida, nivel, evolucion, ataque, defensa, atrapado)
+        self.atribto_especial = "Látigo Cepa"
+
+    def actualizar(self):
+        self.ataque += 10
+        self.defensa += 15
+        self.vida += 25
+        self.limitar_stats()
 #======== Combate ========
 """
 Logica de combate, creacion de enemigos
