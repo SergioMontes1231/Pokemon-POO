@@ -464,6 +464,7 @@ def crear_enemigo_personalizado():
     ataque_especial = input("Ataque especial: ")
     
     nuevo_enemigo = crear_pokemon_enemigo(nombre, descripcion, vida, ataque, defensa, nivel, ataque_especial)
+    nuevo_enemigo.limitar_stats()
     enemigos.append(nuevo_enemigo)
     print(f"\n¡{nombre} ha sido creado y agregado a la lista de enemigos!")
 
